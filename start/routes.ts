@@ -1,3 +1,4 @@
+import BaseInicialsController from 'App/Controllers/Http/BaseInicialsController';
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -20,6 +21,29 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({response }) => {
-  response.send({ fullName: 'Luis Miguel' })
-})
+import User from 'App/Models/user'
+const baseInicialsController = new BaseInicialsController()
+
+Route.get('/', baseInicialsController.index )
+
+Route.post('login', async ({ auth, request }) => {
+    const email = request.input('email')
+    const password = request.input('password')
+  
+    await auth.use('api').attempt(email, password)
+  })
+
+
+  Route.get('/createUser', async ({  }) => {
+
+    const user = new User()
+    
+    // Assign username and email
+    user.email = 'virk@adonisjs.com'
+    user.password = 'virk'
+    
+    // Insert to the database
+    await user.save()
+    
+    console.log(user.$isPersisted) // true
+  })
