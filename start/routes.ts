@@ -1,6 +1,6 @@
-import BaseInicialsController from 'App/Controllers/Http/BaseInicialsController';
 
 import './routes/Auth'
+import './routes/Proyecciones'
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -20,10 +20,3 @@ import './routes/Auth'
 | import './routes/customer'
 |
 */
-
-import Route from '@ioc:Adonis/Core/Route'
-
-const baseInicialsController = new BaseInicialsController()
-
-Route.get('/', baseInicialsController.index )
-
