@@ -59,13 +59,17 @@ export default class BaseInicialsController {
       await activosModel.save();
     });
 
-    pasivos.forEach( pasivo => {
-      console.log(pasivo.nameOfPasivo, pasivo.valueOfPasivo)
+    pasivos.forEach( async pasivo => {
+      pasivosModel.name = pasivo.nameOfPasivo;
+      pasivosModel.valor = pasivo.valueOfPasivo
+      await pasivosModel.save();
     });
     
 
-    patrimonio.forEach( patrimonio => {
-      console.log(patrimonio.nameOfPatrimonio, patrimonio.valueOfPatrimonio)
+    patrimonio.forEach( async patrimonio => {
+      patrimonioModel.name = patrimonio.nameOfPatrimonio;
+      patrimonioModel.valor = patrimonio.valueOfPatrimonio
+      await patrimonioModel.save()
     });
 
     response.status(200).json({message:"Base inicial creaado"})
