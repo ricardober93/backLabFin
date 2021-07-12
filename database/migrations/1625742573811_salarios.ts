@@ -7,6 +7,13 @@ export default class Salarios extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
+      table.string('name').notNullable()
+      table.integer('salary')
+      table.integer('day_works')
+      table.integer('pension')
+      table.integer('salud')
+      table.integer('transport').nullable()
+      table.integer('comision').nullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
