@@ -1,24 +1,28 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import User from "App/Models/user";
+const user = new User();
 export default class AuthController {
-  public async index ({}: HttpContextContract) {
+  public async index({}: HttpContextContract) {}
+
+  public async create({ request, response }: HttpContextContract) {
+    const email = request.input("email");
+    const password = request.input("password");
+
+    // Assign username and email
+    user.email = email;
+    user.password = password;
+
+    // Insert to the database
+    await user.save();
+
+    console.log(user.$isPersisted); // true
+    response.status(200).json({ email: email, password: password });
   }
 
-  public async create ({}: HttpContextContract) {
-  }
+  public async login({ auth, request }: HttpContextContract) {
+    const email = request.input("email");
+    const password = request.input("password");
 
-  public async store ({}: HttpContextContract) {
-  }
-
-  public async show ({}: HttpContextContract) {
-  }
-
-  public async edit ({}: HttpContextContract) {
-  }
-
-  public async update ({}: HttpContextContract) {
-  }
-
-  public async destroy ({}: HttpContextContract) {
+    return await auth.use("api").attempt(email, password);
   }
 }
