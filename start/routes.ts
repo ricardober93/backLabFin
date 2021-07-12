@@ -1,3 +1,6 @@
+
+import './routes/Auth'
+import './routes/Proyecciones'
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -17,9 +20,3 @@
 | import './routes/customer'
 |
 */
-
-import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
