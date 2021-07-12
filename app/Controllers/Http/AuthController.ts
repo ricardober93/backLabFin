@@ -13,11 +13,20 @@ export default class AuthController {
     user.email = email;
     user.password = password;
 
+    const usuarioRepetido = await User.findBy('email', `${user.email}`)
+
+    if(usuarioRepetido?.$attributes.email === user.email){
+      response.status(400).json({ message: "Usuario repetido"});
+      return
+    }
+      await user.save();
+      response.status(200).json({ message: "Usuario creado satisfactoriamente."});
+  
     // Insert to the database
-    await user.save();
+
     console.log(user.$isPersisted); // true
-    response.status(200).json({ email: email, password: password });
-    console.log("Usuario creado")
+    console.log(usuarioRepetido);
+
 
   }
 
