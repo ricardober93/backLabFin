@@ -51,22 +51,24 @@ export default class BaseInicialsController {
       return
     }
 
-    //guardar en la base de datos cada item de actvi, pasivo y patrimonio no
+    //guardar en la base de datos cada item de actvi, pasivo y patrimonio 
+ 
 
-    activos.forEach( async activo => {
+
+    activos.map( async activo => {
       activosModel.name = activo.nameOfActivo;
       activosModel.valor = activo.valueOfActivo
       await activosModel.save();
     });
 
-    pasivos.forEach( async pasivo => {
+    pasivos.map( async pasivo => {
       pasivosModel.name = pasivo.nameOfPasivo;
       pasivosModel.valor = pasivo.valueOfPasivo
       await pasivosModel.save();
     });
     
 
-    patrimonio.forEach( async patrimonio => {
+    patrimonio.map( async patrimonio => {
       patrimonioModel.name = patrimonio.nameOfPatrimonio;
       patrimonioModel.valor = patrimonio.valueOfPatrimonio
       await patrimonioModel.save()
