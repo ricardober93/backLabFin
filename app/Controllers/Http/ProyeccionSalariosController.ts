@@ -31,18 +31,4 @@ export default class ProyeccionSalariosController {
     response.status(200).json({ message: salarioModel.$isPersisted })
   }
 
-  public async store ({}: HttpContextContract) {
-  }
-
-  public async show ({}: HttpContextContract) {
-  }
-
-  public async edit ({}: HttpContextContract) {
-  }
-
-  public async update ({}: HttpContextContract) {
-  }
-
-  public async destroy ({}: HttpContextContract) {
-  }
 }

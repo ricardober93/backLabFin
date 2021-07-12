@@ -26,6 +26,9 @@ export default class Salario extends BaseModel {
   @column()
   public comision: number;
 
+  @column()
+  public valor: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
