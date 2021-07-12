@@ -8,6 +8,13 @@ export default class Salarios extends BaseSchema {
       table.increments('id')
       table.integer('valor', 50).notNullable()
 
+      table.string('name').notNullable()
+      table.integer('salary')
+      table.integer('day_works')
+      table.integer('pension')
+      table.integer('salud')
+      table.integer('transport').nullable()
+      table.integer('comision').nullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
