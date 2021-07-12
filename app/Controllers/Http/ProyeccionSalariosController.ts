@@ -1,24 +1,27 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import Salario from "App/Models/Salario";
 
-export default class ProyeccionSalariosController {
-  public async index ({}: HttpContextContract) {
-  }
+const salarioModel = new Salario();
+export default class ProyeccionPasivosController {
+  public async index({}: HttpContextContract){}
 
-  public async create ({}: HttpContextContract) {
-  }
+  public async create({ request, response}: HttpContextContract){
+    const valor: number = request.input("valor");
 
-  public async store ({}: HttpContextContract) {
-  }
+    if(valor === null){
+      response
+      .status(400)
+      .json({message: "El valor no puede ser nulo"})
+    }
 
-  public async show ({}: HttpContextContract) {
-  }
+    console.log(
+      valor
+    );
 
-  public async edit ({}: HttpContextContract) {
-  }
+    salarioModel.valor = valor;
 
-  public async update ({}: HttpContextContract) {
-  }
-
-  public async destroy ({}: HttpContextContract) {
+    await salarioModel.save();
+    console.log(salarioModel.$isPersisted);
+    response.status(200).json({message: "Se creó el salario"});
   }
 }
