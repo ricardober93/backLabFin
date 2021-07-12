@@ -1,4 +1,5 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { afterFind } from "@ioc:Adonis/Lucid/Orm";
 import User from "App/Models/user";
 const user = new User();
 export default class AuthController {
@@ -14,9 +15,10 @@ export default class AuthController {
 
     // Insert to the database
     await user.save();
-
     console.log(user.$isPersisted); // true
     response.status(200).json({ email: email, password: password });
+    console.log("Usuario creado")
+
   }
 
   public async login({ auth, request }: HttpContextContract) {
