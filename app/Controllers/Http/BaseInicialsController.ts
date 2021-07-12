@@ -1,4 +1,7 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import Activo from "App/Models/Activo";
+import Pasivo from "App/Models/Pasivo";
+import Patrimonio from "App/Models/Patrimonio";
 
 export interface Iactivos {
   nameOfActivo: string;
@@ -13,15 +16,18 @@ export interface Ipatrimonio {
   nameOfPatrimonio: string;
   valueOfPatrimonio: number;
 }
+const activosModel = new Activo()
+const pasivosModel = new Pasivo()
+const patrimonioModel = new Patrimonio()
+
 export default class BaseInicialsController {
   public async create({ request, response }: HttpContextContract) {
     //  const Activos = [ {nameOfActivo: 'Efectivo', valueOfActivo: 120000}]
     //  const Pasivos = [ {nameOfPasivo: 'Efectivo', valueOfPasivo: 120000}]
+
     const activos: Iactivos[] = request.input("activos");
     const pasivos: Ipasivos[] = request.input("pasivos");
     const patrimonio: Ipatrimonio[] = request.input("patrimonio");
-
-    console.log(activos, pasivos, patrimonio);
 
     // Varibales para calcular la regla de negocios
     //recorrer cada arreglo para que obtener el total de activos, pasivos, patrimonio.
@@ -38,8 +44,30 @@ export default class BaseInicialsController {
       0
     );
 
-    console.log(totalActivos, totalPasivos, totalPatrimonio);
+    let sum = totalPatrimonio+totalPasivos
 
-    return { activos, pasivos, patrimonio };
+    if(totalActivos !== sum ){
+      response.status(400).json({message:"La suma de los pasivos y patrimonio no son iguales a los activos"})
+      return
+    }
+
+    //guardar en la base de datos cada item de actvi, pasivo y patrimonio no
+
+    activos.forEach( async activo => {
+      activosModel.name = activo.nameOfActivo;
+      activosModel.valor = activo.valueOfActivo
+      await activosModel.save();
+    });
+
+    pasivos.forEach( pasivo => {
+      console.log(pasivo.nameOfPasivo, pasivo.valueOfPasivo)
+    });
+    
+
+    patrimonio.forEach( patrimonio => {
+      console.log(patrimonio.nameOfPatrimonio, patrimonio.valueOfPatrimonio)
+    });
+
+    response.status(200).json({message:"Base inicial creaado"})
   }
 }
