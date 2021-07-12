@@ -1,6 +1,7 @@
 
 import './routes/Auth'
 import './routes/Proyecciones'
+import './routes/Producto'
 /*
 |--------------------------------------------------------------------------
 | Routes
