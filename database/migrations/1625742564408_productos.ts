@@ -5,10 +5,14 @@ export default class Productos extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
+      table.increments('id').primary()
       table.string('name', 255).notNullable()
       table.integer('quantity').notNullable()
-      table.integer('price').notNullable()
+      table.integer('price').nullable()
+      table.integer('rate_cost')
+      table.integer('rate_raise')
+      table.integer('rate_of_sale')
+      table.integer('rate_of_purchases')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
