@@ -33,4 +33,22 @@ export default class ProyeccionPasivosController {
     console.log(activoModel.$isPersisted);
     response.status(200).json({message: "Se creó el activo"});
   }
+
+  public async update({ request, response}: HttpContextContract){
+    const id: string = request.input("id");
+    const newName: string = request.input("name");
+    const newValor: number = request.input("valor");
+
+   
+   const activoOld = await Pasivo.findByOrFail('id', id)
+
+   
+
+    await activoModel.save();
+    console.log(activoModel.$isPersisted);
+    response.status(200).json({message: "Se actualizo el activo"});
+  }
 }
+
+
+
