@@ -4,3 +4,4 @@ import ProyeccionActivosController from "App/Controllers/Http/ProyeccionActivosC
 const activoController = new ProyeccionActivosController()
 Route.get("/proyeccion/activo", activoController.index);
 Route.post("/proyeccion/activo", activoController.create);
+Route.put("/proyeccion/activo", activoController.update);

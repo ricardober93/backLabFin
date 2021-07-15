@@ -1,7 +1,5 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Pasivo from "App/Models/Pasivo";
-
-const pasivoModel = new Pasivo();
 export default class ProyeccionPasivosController {
   public async index({response}: HttpContextContract){
     const pasivos = await Pasivo.all();
@@ -14,32 +12,19 @@ export default class ProyeccionPasivosController {
     } 
   }
 
-  public async create({ request, response}: HttpContextContract){
-    const name: string = request.input("name");
-    const valor: number = request.input("valor");
+  public async create({}: HttpContextContract){
+  }
 
-    if(name === null){
-      response
-      .status(400)
-      .json({message: "El nombre no puede ser nulo"})
-    }
+  public async update({ request, response }: HttpContextContract) {
+    const id: string = request.params().id;
+    const newName: string = request.input("name");
+    const newValor: number = request.input("valor");
 
-    if(valor === null){
-      response
-      .status(400)
-      .json({message: "El valor no puede ser nulo"})
-    }
+    const pasivoOld = await Pasivo.findByOrFail("id", id);
+    pasivoOld.merge({ name: newName, valor: newValor });
 
-    console.log(
-      name,
-      valor
-    );
-
-    pasivoModel.name = name;
-    pasivoModel.valor = valor;
-
-    await pasivoModel.save();
-    console.log(pasivoModel.$isPersisted);
-    response.status(200).json({message: "Se creó el pasivo"});
+    await pasivoOld.save();
+    console.log(pasivoOld.$isPersisted);
+    response.status(200).json({ message: "Se actualizo el pasivo" });
   }
 }
