@@ -4,4 +4,4 @@ import ProyeccionPasivosController from "App/Controllers/Http/ProyeccionPasivosC
 const pasivoController = new ProyeccionPasivosController()
 Route.get("/proyeccion/pasivo", pasivoController.index);
 Route.post("/proyeccion/pasivo", pasivoController.create);
-Route.put("/proyeccion/pasivo", pasivoController.update);
+Route.put("/proyeccion/pasivo/:id", pasivoController.update);
