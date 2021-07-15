@@ -3,3 +3,5 @@ import ProyeccionActivosController from "App/Controllers/Http/ProyeccionActivosC
 
 const activoController = new ProyeccionActivosController()
 Route.post("/proyeccion/activo", activoController.create);
+
+Route.delete("/proyeccion/activo/borrar", activoController.delete);

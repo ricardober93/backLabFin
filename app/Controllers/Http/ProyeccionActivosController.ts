@@ -1,54 +1,54 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Pasivo from "App/Models/Activo";
+import Activo from "App/Models/Activo";
 
-const activoModel = new Pasivo();
+const activoModel = new Activo();
 export default class ProyeccionPasivosController {
-  public async index({}: HttpContextContract){}
+  public async index({}: HttpContextContract) {}
 
-  public async create({ request, response}: HttpContextContract){
+  public async create({ request, response }: HttpContextContract) {
     const name: string = request.input("name");
     const valor: number = request.input("valor");
 
-    if(name === null){
-      response
-      .status(400)
-      .json({message: "El nombre no puede ser nulo"})
+    if (name === null) {
+      response.status(400).json({ message: "El nombre no puede ser nulo" });
     }
 
-    if(valor === null){
-      response
-      .status(400)
-      .json({message: "El valor no puede ser nulo"})
+    if (valor === null) {
+      response.status(400).json({ message: "El valor no puede ser nulo" });
     }
 
-    console.log(
-      name,
-      valor
-    );
+    console.log(name, valor);
 
     activoModel.name = name;
     activoModel.valor = valor;
 
     await activoModel.save();
     console.log(activoModel.$isPersisted);
-    response.status(200).json({message: "Se creó el activo"});
+    response.status(200).json({ message: "Se creó el activo" });
   }
 
-  public async update({ request, response}: HttpContextContract){
+  public async update({ request, response }: HttpContextContract) {
     const id: string = request.input("id");
     const newName: string = request.input("name");
     const newValor: number = request.input("valor");
 
-   
-   const activoOld = await Pasivo.findByOrFail('id', id)
+    const activoOld = await Activo.findByOrFail("id", id);
+    activoOld
+      .merge({
+        name: newName,
+        valor: newValor,
+      })
+      .save();
 
-   
+    console.log(activoOld.$isPersisted);
+    response.status(200).json({ message: "Se actualizo el activo" });
+  }
 
-    await activoModel.save();
-    console.log(activoModel.$isPersisted);
-    response.status(200).json({message: "Se actualizo el activo"});
+  public async delete({ request, response}: HttpContextContract){
+    const id: string = request.input("id");
+    const usuarioAEliminar = await Activo.findByOrFail("id", id);
+    usuarioAEliminar.delete();
+    response.status(200).json({ message: "Se borró el usuario"});
+    console.log(usuarioAEliminar)
   }
 }
-
-
-
