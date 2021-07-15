@@ -52,9 +52,6 @@ export default class BaseInicialsController {
     }
 
     //guardar en la base de datos cada item de actvi, pasivo y patrimonio 
- 
-
-
     activos.map( async activo => {
       activosModel.name = activo.nameOfActivo;
       activosModel.valor = activo.valueOfActivo
