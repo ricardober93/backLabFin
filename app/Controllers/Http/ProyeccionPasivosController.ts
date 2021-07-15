@@ -3,7 +3,16 @@ import Pasivo from "App/Models/Pasivo";
 
 const pasivoModel = new Pasivo();
 export default class ProyeccionPasivosController {
-  public async index({}: HttpContextContract){}
+  public async index({response}: HttpContextContract){
+    const pasivos = await Pasivo.all();
+
+    if(pasivos.length < 0){
+      response.status(400).json({ message : "No hay pasivos disponibles"})
+    } 
+    if(pasivos.length > 0){
+      response.status(200).json(pasivos)
+    } 
+  }
 
   public async create({ request, response}: HttpContextContract){
     const name: string = request.input("name");

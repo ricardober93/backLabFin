@@ -4,6 +4,9 @@ import './routes/Proyecciones'
 import './routes/Producto'
 import './routes/Salario'
 import './routes/Activo'
+import './routes/Pasivo'
+
+
 /*
 |--------------------------------------------------------------------------
 | Routes
