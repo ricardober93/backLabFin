@@ -28,4 +28,12 @@ export default class ProyeccionPasivosController {
     console.log(pasivoOld.$isPersisted);
     response.status(200).json({ message: "Se actualizo el pasivo" });
   }
+
+  public async delete({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const pasivoDel = await Pasivo.findByOrFail("id", id);
+    pasivoDel.delete();
+    response.status(200).json({ message: "Pasivo eliminado" });
+    console.log(pasivoDel);
+  }
 }
