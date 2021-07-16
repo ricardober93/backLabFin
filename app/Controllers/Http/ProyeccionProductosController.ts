@@ -73,5 +73,11 @@ export default class ProyeccionProductosController {
     response.status(200).json({ message: "Se actualizó el producto" });
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const productoDel = await Producto.findByOrFail("id", id);
+    productoDel.delete();
+    response.status(200).json({ message: "Producto eliminado" });
+    console.log(productoDel);
+  }
 }
