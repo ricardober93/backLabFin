@@ -27,4 +27,12 @@ export default class PatrimoniosController {
     console.log(patrimonioOld.$isPersisted);
     response.status(200).json({ message: "Se actualizo el patrimonio" });
   }
+
+  public async delete({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const patrimonioDel = await Patrimonio.findByOrFail("id", id);
+    patrimonioDel.delete();
+    response.status(200).json({ message: "Patrimonio eliminado" });
+    console.log(patrimonioDel);
+  }
 }
