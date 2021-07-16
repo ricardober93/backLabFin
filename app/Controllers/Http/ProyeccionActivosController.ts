@@ -1,31 +1,21 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Activo from "App/Models/Activo";
 
-const activoModel = new Activo();
+
 export default class ProyeccionPasivosController {
-  public async index({}: HttpContextContract) {}
+  public async index({ response }: HttpContextContract) {
 
-  public async create({ request, response }: HttpContextContract) {
-    const name: string = request.input("name");
-    const valor: number = request.input("valor");
+    const activos = await Activo.all();
 
-    if (name === null) {
-      response.status(400).json({ message: "El nombre no puede ser nulo" });
+    if (activos.length < 0) {
+      response.status(400).json({ message: "No hay activos disponibles" });
     }
-
-    if (valor === null) {
-      response.status(400).json({ message: "El valor no puede ser nulo" });
+    if (activos.length > 0) {
+      response.status(200).json(activos);
     }
-
-    console.log(name, valor);
-
-    activoModel.name = name;
-    activoModel.valor = valor;
-
-    await activoModel.save();
-    console.log(activoModel.$isPersisted);
-    response.status(200).json({ message: "Se creó el activo" });
   }
+
+  public async create({}: HttpContextContract) {}
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
@@ -53,11 +43,11 @@ export default class ProyeccionPasivosController {
     response.status(200).json({ message: "Se actualizo el activo" });
   }
 
-  public async delete({ request, response}: HttpContextContract){
-    const id: string = request.input("id");
-    const usuarioAEliminar = await Activo.findByOrFail("id", id);
-    usuarioAEliminar.delete();
-    response.status(200).json({ message: "Se borró el usuario"});
-    console.log(usuarioAEliminar)
+  public async delete({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const actiivoDel = await Activo.findByOrFail("id", id);
+    actiivoDel.delete();
+    response.status(200).json({ message: "Activo eliminado" });
+    console.log(actiivoDel);
   }
 }
