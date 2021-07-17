@@ -38,8 +38,6 @@ export default class ProyeccionSalariosController {
     response.status(200).json({ message: salarioModel.$isPersisted })
   }
 
-
-
   public async destroy({ request, response }: HttpContextContract) {
     const id: string =  request.params().id;
     const salarioDel = await Salario.findByOrFail("id", id);
