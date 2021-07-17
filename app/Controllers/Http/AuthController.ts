@@ -21,7 +21,7 @@ export default class AuthController {
     }
       await user.save();
       response.status(200).json({ message: "Usuario creado satisfactoriamente."});
-  
+
     // Insert to the database
 
     console.log(user.$isPersisted); // true
@@ -35,5 +35,10 @@ export default class AuthController {
     const password = request.input("password");
 
     return await auth.use("api").attempt(email, password);
+  }
+
+  public async show ({}: HttpContextContract) {
+    const mostrarUsusario = await User.all()
+    
   }
 }

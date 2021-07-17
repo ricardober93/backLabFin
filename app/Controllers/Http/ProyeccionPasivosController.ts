@@ -1,36 +1,39 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Pasivo from "App/Models/Pasivo";
 
-const pasivoModel = new Pasivo();
 export default class ProyeccionPasivosController {
-  public async index({}: HttpContextContract){}
+  public async index({response}: HttpContextContract){
+    const pasivos = await Pasivo.all();
 
-  public async create({ request, response}: HttpContextContract){
-    const name: string = request.input("name");
-    const valor: number = request.input("valor");
-
-    if(name === null){
-      response
-      .status(400)
-      .json({message: "El nombre no puede ser nulo"})
+    if(pasivos.length < 0){
+      response.status(400).json({ message : "No hay pasivos disponibles"})
     }
-
-    if(valor === null){
-      response
-      .status(400)
-      .json({message: "El valor no puede ser nulo"})
+    if(pasivos.length > 0){
+      response.status(200).json(pasivos)
     }
+  }
 
-    console.log(
-      name,
-      valor
-    );
+  public async create({}: HttpContextContract){
+  }
 
-    pasivoModel.name = name;
-    pasivoModel.valor = valor;
+  public async update({ request, response }: HttpContextContract) {
+    const id: string = request.params().id;
+    const newName: string = request.input("name");
+    const newValor: number = request.input("valor");
 
-    await pasivoModel.save();
-    console.log(pasivoModel.$isPersisted);
-    response.status(200).json({message: "Se creó el pasivo"});
+    const pasivoOld = await Pasivo.findByOrFail("id", id);
+    pasivoOld.merge({ name: newName, valor: newValor });
+
+    await pasivoOld.save();
+    console.log(pasivoOld.$isPersisted);
+    response.status(200).json({ message: "Se actualizo el pasivo" });
+  }
+
+  public async delete({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const pasivoDel = await Pasivo.findByOrFail("id", id);
+    pasivoDel.delete();
+    response.status(200).json({ message: "Pasivo eliminado" });
+    console.log(pasivoDel);
   }
 }

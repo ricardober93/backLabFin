@@ -4,7 +4,14 @@ import Salario from 'App/Models/Salario';
 
 const salarioModel =  new Salario();
 export default class ProyeccionSalariosController {
-  public async index ({}: HttpContextContract) {
+  public async index ({ response }: HttpContextContract) {
+    const salarios = await Salario.all();
+    if (salarios.length < 0) {
+      response.status(400).json({ message: "no hay salarios para mostrar" });
+    }
+    if (salarios.length > 0) {
+      response.status(200).json(salarios);
+    }
   }
 
   public async create ({request, response}: HttpContextContract) {
@@ -29,6 +36,16 @@ export default class ProyeccionSalariosController {
 
     console.log(salarioModel)
     response.status(200).json({ message: salarioModel.$isPersisted })
+  }
+
+
+
+  public async destroy({ request, response }: HttpContextContract) {
+    const id: string =  request.params().id;
+    const salarioDel = await Salario.findByOrFail("id", id);
+    salarioDel.delete();
+    response.status(200).json({ message: "Salario eliminado" });
+    console.log(salarioDel);
   }
 
 }
