@@ -43,6 +43,7 @@ export default class BaseInicialsController {
       response
         .status(400)
         .json({
+          status: "error",
           message:
             "La suma de los pasivos y patrimonio no son iguales a los activos",
         });
@@ -55,6 +56,6 @@ export default class BaseInicialsController {
 
     await Patrimonio.createMany(activos);
 
-    response.status(200).json({ message: "Base inicial creaado" });
+    response.status(200).json({ status: "good",message: "Base inicial creaado" });
   }
 }
