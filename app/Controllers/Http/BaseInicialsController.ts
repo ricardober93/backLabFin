@@ -25,15 +25,15 @@ export default class BaseInicialsController {
     // Varibales para calcular la regla de negocios
     //recorrer cada arreglo para que obtener el total de activos, pasivos, patrimonio.
     const totalActivos: number = activos.reduce(
-      (a, b) => a + (b["valueOfActivo"] || 0),
+      (a, b) => a + (b["valor"] || 0),
       0
     );
     const totalPasivos: number = pasivos.reduce(
-      (a, b) => a + (b["valueOfPasivo"] || 0),
+      (a, b) => a + (b["valor"] || 0),
       0
     );
     const totalPatrimonio: number = patrimonio.reduce(
-      (a, b) => a + (b["valueOfPatrimonio"] || 0),
+      (a, b) => a + (b["valor"] || 0),
       0
     );
 
