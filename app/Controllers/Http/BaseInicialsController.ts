@@ -41,7 +41,7 @@ export default class BaseInicialsController {
 
     if (totalActivos !== sum) {
       response
-        .status(400)
+        .status(200)
         .json({
           status: "error",
           message:
