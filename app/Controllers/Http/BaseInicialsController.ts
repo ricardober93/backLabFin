@@ -2,32 +2,12 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Activo from "App/Models/Activo";
 import Pasivo from "App/Models/Pasivo";
 import Patrimonio from "App/Models/Patrimonio";
-
-export interface Iactivos {
-  nameOfActivo: string;
-  valueOfActivo: number;
-}
-
-export interface Ipasivos {
-  nameOfPasivo: string;
-  valueOfPasivo: number;
-}
-export interface Ipatrimonio {
-  nameOfPatrimonio: string;
-  valueOfPatrimonio: number;
-}
-const activosModel = new Activo()
-const pasivosModel = new Pasivo()
-const patrimonioModel = new Patrimonio()
-
 export default class BaseInicialsController {
   public async create({ request, response }: HttpContextContract) {
-    //  const Activos = [ {nameOfActivo: 'Efectivo', valueOfActivo: 120000}]
-    //  const Pasivos = [ {nameOfPasivo: 'Efectivo', valueOfPasivo: 120000}]
 
-    const activos: Iactivos[] = request.input("activos");
-    const pasivos: Ipasivos[] = request.input("pasivos");
-    const patrimonio: Ipatrimonio[] = request.input("patrimonio");
+    const activos = request.input("activos");
+    const pasivos= request.input("pasivos");
+    const patrimonio = request.input("patrimonio");
 
     // Varibales para calcular la regla de negocios
     //recorrer cada arreglo para que obtener el total de activos, pasivos, patrimonio.
@@ -51,25 +31,11 @@ export default class BaseInicialsController {
       return
     }
 
-    //guardar en la base de datos cada item de actvi, pasivo y patrimonio 
-    activos.map( async activo => {
-      activosModel.name = activo.nameOfActivo;
-      activosModel.valor = activo.valueOfActivo
-      await activosModel.save();
-    });
+    await Activo.createMany(activos)
 
-    pasivos.map( async pasivo => {
-      pasivosModel.name = pasivo.nameOfPasivo;
-      pasivosModel.valor = pasivo.valueOfPasivo
-      await pasivosModel.save();
-    });
-    
+    await Pasivo.createMany(pasivos)
 
-    patrimonio.map( async patrimonio => {
-      patrimonioModel.name = patrimonio.nameOfPatrimonio;
-      patrimonioModel.valor = patrimonio.valueOfPatrimonio
-      await patrimonioModel.save()
-    });
+    await Patrimonio.createMany(patrimonio)
 
     response.status(200).json({message:"Base inicial creaado"})
   }
