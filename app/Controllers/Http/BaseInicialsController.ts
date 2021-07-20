@@ -25,20 +25,20 @@ export default class BaseInicialsController {
     // Varibales para calcular la regla de negocios
     //recorrer cada arreglo para que obtener el total de activos, pasivos, patrimonio.
     const totalActivos: number = activos.reduce(
-      (a, b) => a + (b["valor"] || 0),
+      (a, b) => a + Number(b["valor"]),
       0
     );
     const totalPasivos: number = pasivos.reduce(
-      (a, b) => a + (b["valor"] || 0),
+      (a, b) => a + Number(b["valor"]),
       0
     );
     const totalPatrimonio: number = patrimonio.reduce(
-      (a, b) => a + (b["valor"] || 0),
+      (a, b) => a + Number(b["valor"] ),
       0
     );
 
     let sum = totalPatrimonio + totalPasivos;
-
+    console.log(sum, totalActivos)
     if (totalActivos !== sum) {
       response
         .status(200)
@@ -47,15 +47,16 @@ export default class BaseInicialsController {
           message:
             "La suma de los pasivos y patrimonio no son iguales a los activos",
         });
-      return;
+    }else{
+      await Activo.createMany(activos);
+
+      await Pasivo.createMany(pasivos);
+  
+      await Patrimonio.createMany(patrimonio);
+  
+      response.status(200).json({ status: "good",message: "Base inicial creaado" });
     }
 
-    await Activo.createMany(activos);
-
-    await Pasivo.createMany(pasivos);
-
-    await Patrimonio.createMany(activos);
-
-    response.status(200).json({ status: "good",message: "Base inicial creaado" });
+   
   }
 }
