@@ -9,6 +9,8 @@ export default class UsersSchema extends BaseSchema {
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
+      table.integer('id_producto').unsigned().references('id').inTable('productos').onDelete('CASCADE')
+      table.integer('id_presupuesto_venta').unsigned().references('id').inTable('presupuesto_ventas').onDelete('CASCADE')
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
