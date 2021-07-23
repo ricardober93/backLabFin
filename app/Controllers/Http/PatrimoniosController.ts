@@ -6,7 +6,7 @@ export default class PatrimoniosController {
     const patrimonio = await Patrimonio.all();
 
     if (patrimonio.length < 0) {
-      response.status(400).json({ message: "No hay patrimonio disponibles" });
+      response.status(200).json({ message: "No hay patrimonio disponibles" });
     }
     if (patrimonio.length > 0) {
       response.status(200).json(patrimonio);

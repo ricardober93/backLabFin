@@ -7,4 +7,3 @@ Route.post("/login", authController.login);
 
 Route.post("/register", authController.create);
 
-Route.get("/mostrar", authController.show);

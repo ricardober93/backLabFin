@@ -25,7 +25,7 @@ export default class ProyeccionPasivosController {
     const activos = await Activo.all();
 
     if (activos.length < 0) {
-      response.status(400).json({ message: "No hay activos disponibles" });
+      response.status(200).json({ message: "No hay activos disponibles" });
     }
     if (activos.length > 0) {
       response.status(200).json(activos);
