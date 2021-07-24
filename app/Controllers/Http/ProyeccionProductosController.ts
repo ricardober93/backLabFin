@@ -24,7 +24,7 @@ export default class ProyeccionProductosController {
 
     if (name === null || quantity === null) {
       response
-        .status(400)
+        .status(200)
         .json({ message: "El nombre no puede ser un valor nulo" });
     }
 
