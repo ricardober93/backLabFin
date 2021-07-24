@@ -7,6 +7,6 @@ Route.group(() => {
   Route.get("/proyeccion/activo", activoController.index);
   Route.post("/proyeccion/activo", activoController.create);
 
-  Route.delete("/proyeccion/activo/borrar", activoController.delete);
+  Route.delete("/proyeccion/activo/:id", activoController.delete);
   Route.put("/proyeccion/activo/:id", activoController.update);
 }).middleware("auth:api");
