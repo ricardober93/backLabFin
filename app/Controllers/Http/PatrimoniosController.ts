@@ -17,11 +17,17 @@ export default class PatrimoniosController {
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
-    const newName: string = request.input("name");
-    const newValor: number = request.input("valor");
+    const newPatrimonio = request.all();
+
+    const patrimonio = await Patrimonio.all();
+    if (patrimonio.length < 0) {
+      response
+        .status(200)
+        .json({ message: "No hay activos disponibles para actualizar" });
+    }
 
     const patrimonioOld = await Patrimonio.findByOrFail("id", id);
-    patrimonioOld.merge({ name: newName, valor: newValor });
+    patrimonioOld.merge(newPatrimonio);
 
     await patrimonioOld.save();
     console.log(patrimonioOld.$isPersisted);
@@ -29,7 +35,7 @@ export default class PatrimoniosController {
   }
 
   public async delete({ request, response }: HttpContextContract) {
-    const id: string =  request.params().id;
+    const id: string = request.params().id;
     const patrimonioDel = await Patrimonio.findByOrFail("id", id);
     patrimonioDel.delete();
     response.status(200).json({ message: "Patrimonio eliminado" });
