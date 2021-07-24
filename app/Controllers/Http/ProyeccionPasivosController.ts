@@ -6,7 +6,7 @@ export default class ProyeccionPasivosController {
     const pasivos = await Pasivo.all();
 
     if(pasivos.length < 0){
-      response.status(400).json({ message : "No hay pasivos disponibles"})
+      response.status(200).json({ message : "No hay pasivos disponibles"})
     }
     if(pasivos.length > 0){
       response.status(200).json(pasivos)
@@ -18,13 +18,18 @@ export default class ProyeccionPasivosController {
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
-    const newName: string = request.input("name");
-    const newValor: number = request.input("valor");
+    const newPasivo = request.all()
+
+    const pasivos = await Pasivo.all();
+    console.log(newPasivo)
+    if (pasivos.length < 0) {
+      response.status(200).json({ message: "No hay activos disponibles para actualizar" });
+    }
 
     const pasivoOld = await Pasivo.findByOrFail("id", id);
-    pasivoOld.merge({ name: newName, valor: newValor });
-
-    await pasivoOld.save();
+    await pasivoOld
+    .merge(newPasivo)
+    .save();
     console.log(pasivoOld.$isPersisted);
     response.status(200).json({ message: "Se actualizo el pasivo" });
   }
