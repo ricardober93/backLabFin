@@ -8,7 +8,7 @@ export default class ProyeccionPasivosController {
     const activos = await Activo.all();
 
     if (activos.length < 0) {
-      response.status(400).json({ message: "No hay activos disponibles" });
+      response.status(200).json({ message: "No hay activos disponibles" });
     }
     if (activos.length > 0) {
       response.status(200).json(activos);
@@ -19,24 +19,17 @@ export default class ProyeccionPasivosController {
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
-    const newName: string = request.input("name");
-    const newValor: number = request.input("valor");
+    const newActivo = request.all()
 
     const activos = await Activo.all();
 
     if (activos.length < 0) {
-      response.status(200).json({ message: "No hay activos disponibles" });
+      response.status(200).json({ message: "No hay activos disponibles para actualizar" });
     }
-    if (activos.length > 0) {
-      response.status(200).json(activos);
-    }
-
+    
     const activoOld = await Activo.findByOrFail("id", id);
-    activoOld
-      .merge({
-        name: newName,
-        valor: newValor,
-      })
+    await activoOld
+      .merge(newActivo)
       .save();
 
     console.log(activoOld.$isPersisted);

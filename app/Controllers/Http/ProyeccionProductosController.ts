@@ -14,31 +14,18 @@ export default class ProyeccionProductosController {
   }
 
   public async create({ request, response }: HttpContextContract) {
-    const name: string = request.input("name");
-    const quantity: number = request.input("quantity");
-    const priceOnSale: number = request.input("priceOnSale");
-    const rateCost: number = request.input("rateCost");
-    const rateRaise: number = request.input("rateRaise");
-    const rateOfSale: number = request.input("rateOfSale");
-    const rateOfPurchases: number = request.input("rateOfPurchases");
+    const product = request.all();
 
-    if (name === null || quantity === null) {
+    if (product.name === null || product.quantity === null) {
       response
-        .status(400)
+        .status(204)
         .json({ message: "El nombre no puede ser un valor nulo" });
     }
 
-    productoModel.name = name;
-    productoModel.quantity = quantity;
-    productoModel.price = priceOnSale;
-    productoModel.rateCost = rateCost;
-    productoModel.rateRaise = rateRaise;
-    productoModel.rateOfSale = rateOfSale;
-    productoModel.rateOfPurchases = rateOfPurchases;
-
-    await productoModel.save();
-    console.log(productoModel.$isPersisted);
-    response.status(200).json({ message: "Se crearon el producto" });
+    const newProduct = await Producto.create(product);
+    await newProduct.save();
+    console.log(newProduct.$isPersisted);
+    response.status(201).json({ message: "Se crearon el producto" });
   }
 
   public async store({}: HttpContextContract) {}
@@ -49,32 +36,23 @@ export default class ProyeccionProductosController {
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
-    const newName: string = request.input("name");
-    const newQuantity: number = request.input("quantity");
-    const newPriceOnSale: number = request.input("priceOnSale");
-    const newRateCost: number = request.input("rateCost");
-    const newRateRaise: number = request.input("rateRaise");
-    const newRateOfSale: number = request.input("rateOfSale");
-    const newRateOfPurchases: number = request.input("rateOfPurchases");
+    const productAll = request.all();
 
     const productoOLd = await Producto.findByOrFail("id", id);
-    productoOLd.merge({
-      name: newName,
-      quantity: newQuantity,
-      price: newPriceOnSale,
-      rateCost: newRateCost,
-      rateRaise: newRateRaise,
-      rateOfSale: newRateOfSale,
-      rateOfPurchases: newRateOfPurchases,
-    });
 
-    await productoOLd.save();
+    console.log(id, productAll, productAll);
+    if (productoOLd === null) {
+      response.status(203).json({ message: "no hay producto" });
+      return;
+    }
+
+    await productoOLd.merge(productAll).save();
     console.log(productoOLd.$isPersisted);
     response.status(200).json({ message: "Se actualizó el producto" });
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const id: string =  request.params().id;
+    const id: string = request.params().id;
     const productoDel = await Producto.findByOrFail("id", id);
     productoDel.delete();
     response.status(200).json({ message: "Producto eliminado" });

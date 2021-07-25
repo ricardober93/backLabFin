@@ -15,16 +15,16 @@ export default class Producto extends BaseModel {
   public price: number;
 
   @column()
-  public rateCost: number;
+  public rate_cost: number;
 
   @column()
-  public rateRaise: number;
+  public rate_raise: number;
 
   @column()
-  public rateOfSale: number;
+  public rate_of_sale: number;
    
   @column()
-  public rateOfPurchases: number;
+  public rate_of_purchases: number;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
