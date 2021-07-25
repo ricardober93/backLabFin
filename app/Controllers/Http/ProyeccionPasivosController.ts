@@ -22,6 +22,7 @@ export default class ProyeccionPasivosController {
 
     const pasivos = await Pasivo.all();
     console.log(newPasivo)
+    
     if (pasivos.length < 0) {
       response.status(200).json({ message: "No hay activos disponibles para actualizar" });
     }

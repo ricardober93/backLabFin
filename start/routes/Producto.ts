@@ -4,5 +4,6 @@ const productoController = new ProyeccionProductosController();
 Route.group(() => {
 Route.get("/proyeccion/productos", productoController.index);
 Route.post("/proyeccion/producto", productoController.create);
-Route.put("/proyeccion/producto/id", productoController.update);
+Route.put("/proyeccion/producto/:id", productoController.update);
+Route.delete("/proyeccion/producto/:id", productoController.destroy);
 }).middleware('auth:api')
