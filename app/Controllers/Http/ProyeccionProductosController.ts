@@ -1,20 +1,25 @@
+import User from 'App/Models/user';
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Producto from "App/Models/Producto";
 
 const productoModel = new Producto();
 export default class ProyeccionProductosController {
-  public async index({ response }: HttpContextContract) {
-    const products = await Producto.all();
-    if (products.length < 0) {
+  public async index({ auth,response }: HttpContextContract) {
+    const user = await User.find(auth.use("api").user.id);
+
+
+      await user.load('productos');
+    if (user.productos === null) {
       response.status(400).json({ message: "no hay productos para mostrar" });
     }
-    if (products.length > 0) {
-      response.status(200).json(products);
+    if (user.productos !== null)) {
+      response.status(200).json(user.productos);
     }
   }
 
-  public async create({ request, response }: HttpContextContract) {
+  public async create({ auth, request, response }: HttpContextContract) {
     const product = request.all();
+    const user: User = auth.use("api").user;
 
     if (product.name === null || product.quantity === null) {
       response
@@ -23,8 +28,9 @@ export default class ProyeccionProductosController {
     }
 
     const newProduct = await Producto.create(product);
-    await newProduct.save();
-    console.log(newProduct.$isPersisted);
+    await newProduct.related('user').associate(user)
+    console.log(await Producto.$hasRelation('user'));
+    console.log(newProduct.$getRelated('user'));
     response.status(201).json({ message: "Se crearon el producto" });
   }
 
