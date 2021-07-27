@@ -15,40 +15,40 @@ import Producto from './Producto';
 import Salario from './Salario';
 export default class user extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
 
   @column()
-  public email: string
+  public email: string;
 
   @column({ serializeAs: null })
-  public password: string
+  public password: string;
 
   @column()
-  public rememberMeToken?: string
+  public rememberMeToken?: string;
 
   @column()
-  public isActive: string
+  public isActive: string;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
 
   @hasMany(() => Activo)
-  public activos: HasMany<typeof Activo>
+  public activos: HasMany<typeof Activo>;
 
   @hasMany(() => Pasivo)
-  public pasivos: HasMany<typeof Pasivo>
+  public pasivos: HasMany<typeof Pasivo>;
 
   @hasMany(() => Patrimonio)
-  public patrimonios: HasMany<typeof Patrimonio>
+  public patrimonios: HasMany<typeof Patrimonio>;
 
   @hasMany(() => Producto)
-  public productos: HasMany<typeof Producto>
+  public productos: HasMany<typeof Producto>;
 
   @hasMany(() => Salario)
-  public salarios: HasMany<typeof Salario>
+  public salarios: HasMany<typeof Salario>;
 
   @beforeSave()
   public static async hashPassword (user: user) {
