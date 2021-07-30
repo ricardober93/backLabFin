@@ -11,7 +11,7 @@ export default class AuthController {
     user.password = password;
     const usuarioRepetido = await User.findBy("email", `${user.email}`);
     if (usuarioRepetido?.$attributes.email === user.email) {
-      response.status(404).json({ message: "Usuario repetido" });
+      response.status(400).json({ message: "Usuario repetido" });
       return;
     }
     await user.save();
