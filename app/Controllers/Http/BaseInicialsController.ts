@@ -1,4 +1,6 @@
+import  User  from 'App/Models/user';
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import Logger from '@ioc:Adonis/Core/Logger'
 import Activo from "App/Models/Activo";
 import Pasivo from "App/Models/Pasivo";
 import Patrimonio from "App/Models/Patrimonio";
@@ -17,11 +19,12 @@ export interface Ipatrimonio {
   valor: number;
 }
 export default class BaseInicialsController {
-  public async create({ request, response }: HttpContextContract) {
+  public async create({ auth, request, response }: HttpContextContract) {
     const activos: Iactivos[] = request.input("activos");
     const pasivos: Ipasivos[] = request.input("pasivos");
     const patrimonio: Ipatrimonio[] = request.input("patrimonio");
 
+    const user: User = auth.use("api").user;
     // Varibales para calcular la regla de negocios
     //recorrer cada arreglo para que obtener el total de activos, pasivos, patrimonio.
     const totalActivos: number = activos.reduce(
@@ -33,30 +36,29 @@ export default class BaseInicialsController {
       0
     );
     const totalPatrimonio: number = patrimonio.reduce(
-      (a, b) => a + Number(b["valor"] ),
+      (a, b) => a + Number(b["valor"]),
       0
     );
 
     let sum = totalPatrimonio + totalPasivos;
-    console.log(sum, totalActivos)
+    console.log(sum, totalActivos);
     if (totalActivos !== sum) {
-      response
-        .status(200)
-        .json({
-          status: "error",
-          message:
-            "La suma de los pasivos y patrimonio no son iguales a los activos",
-        });
-    }else{
-      await Activo.createMany(activos);
-
-      await Pasivo.createMany(pasivos);
-  
-      await Patrimonio.createMany(patrimonio);
-  
-      response.status(200).json({ status: "good",message: "Base inicial creaado" });
+      response.status(200).json({
+        status: "error",
+        message:
+          "La suma de los pasivos y patrimonio no son iguales a los activos",
+      });
     }
 
-   
+
+    await (await Activo.createMany(activos)).map( a => a.related('user').associate(user));
+
+    await (await Pasivo.createMany(pasivos)).map(p => p.related('user').associate(user));
+
+    await (await Patrimonio.createMany(patrimonio)).map(p => p.related('user').associate(user));
+
+    response
+      .status(200)
+      .json({ status: "good", message: "Base inicial creaado" });
   }
 }
