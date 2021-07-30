@@ -6,6 +6,12 @@ export default class OtherVaraibles extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.integer("otros_ingresos")
+      table.integer("otros_egresos")
+      table.integer("valor_prestamo")
+      table.integer("valor_cdt")
+      table.integer("salary_min")
+      table.integer("increment_salary")
       table
       .integer('user_id')
       .unsigned()
