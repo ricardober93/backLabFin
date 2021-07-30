@@ -10,22 +10,11 @@ export default class Varaible extends BaseModel {
   public userId: number
 
   @column()
-  public impuesto_renta: number
+  public name: number
 
   @column()
-  public reserva_legal: number
+  public value: number
 
-  @column()
-  public tasa_oportuna: number
-
-  @column()
-  public tasa_prestamo: number
-
-  @column()
-  public salud: number
-
-  @column()
-  public pension: number
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>

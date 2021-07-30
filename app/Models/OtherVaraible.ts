@@ -10,19 +10,11 @@ export default class OtherVaraible extends BaseModel {
   public userId: number
 
   @column()
-  public otros_ingresos: number
+  public name: number
 
   @column()
-  public otros_egresos: number
+  public value: number
 
-  @column()
-  public valor_prestamo: number
-
-  @column()
-  public valor_cdt: number
-
-  @column()
-  public salary_min: number
 
   @column()
   public increment_salary: number
