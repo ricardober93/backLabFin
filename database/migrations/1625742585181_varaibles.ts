@@ -6,13 +6,8 @@ export default class Varaibles extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
-      table.integer('impuesto_renta')
-      table.integer('reserva_legal')
-      table.integer('tasa_oportuna')
-      table.integer('tasa_prestamo')
-      table.integer('salud')
-      table.integer('pension')
+      table.string("name")
+      table.integer("value")
       table
         .integer('user_id')
         .unsigned()
