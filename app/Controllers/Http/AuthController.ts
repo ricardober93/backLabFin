@@ -13,37 +13,34 @@ export default class AuthController {
     user.email = email;
     user.password = password;
 
-    const usuarioRepetido = await User.findBy('email', `${user.email}`)
+    const usuarioRepetido = await User.findBy("email", `${user.email}`);
 
-    if(usuarioRepetido?.$attributes.email === user.email){
-      response.status(400).json({ message: "Usuario repetido"});
-      return
+    if (usuarioRepetido?.$attributes.email === user.email) {
+      response.status(404).json({ message: "Usuario repetido" });
+      return;
     }
-      await user.save();
-      response.status(200).json({ message: "Usuario creado satisfactoriamente."});
+
+    await user.save();
+    response
+      .status(200)
+      .json({ message: "Usuario creado satisfactoriamente." });
 
     // Insert to the database
-
     console.log(user.$isPersisted); // true
-    console.log(usuarioRepetido);
-
-
   }
 
   public async login({ auth, request, response }: HttpContextContract) {
     const email = request.input("email");
     const password = request.input("password");
 
-
-    const user = await User.findBy('email', `${email}`)
+    const user = await User.findBy("email", `${email}`);
 
     const token = await auth.use("api").attempt(email, password);
 
-    if(token === null){
-      response.status(400).json({ message : 'no se encuentra el usuario'})
+    if (token === null) {
+      response.status(400).json({ message: "no se encuentra el usuario" });
     }
 
-    response.status(200).json({ user, token})
+    response.status(200).json({ user, token });
   }
-
 }
