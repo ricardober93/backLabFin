@@ -1,7 +1,5 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Activo from "App/Models/Activo";
-
-
 export default class ProyeccionPasivosController {
   public async index({ response }: HttpContextContract) {
 
@@ -17,11 +15,9 @@ export default class ProyeccionPasivosController {
 
   public async create({}: HttpContextContract) {}
 
-  public async update({ request, response }: HttpContextContract) {
+  public async update({request, response }: HttpContextContract) {
     const id: string = request.params().id;
     const newActivo = request.all()
-
-    const activos = await Activo.all();
 
     if (activos.length < 0) {
       response.status(200).json({ message: "No hay activos disponibles para actualizar" });
@@ -39,6 +35,7 @@ export default class ProyeccionPasivosController {
   public async delete({ request, response }: HttpContextContract) {
     const id: string =  request.params().id;
     const actiivoDel = await Activo.findByOrFail("id", id);
+    console.log(actiivoDel, id)
     actiivoDel.delete();
     response.status(200).json({ message: "Activo eliminado" });
     console.log(actiivoDel);
