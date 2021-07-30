@@ -1,4 +1,4 @@
-import { User } from 'App/Models/user';
+import User  from 'App/Models/user';
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 
@@ -8,6 +8,24 @@ export default class Varaible extends BaseModel {
 
   @column()
   public userId: number
+
+  @column()
+  public impuesto_renta: number
+
+  @column()
+  public reserva_legal: number
+
+  @column()
+  public tasa_oportuna: number
+
+  @column()
+  public tasa_prestamo: number
+
+  @column()
+  public salud: number
+
+  @column()
+  public pension: number
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
