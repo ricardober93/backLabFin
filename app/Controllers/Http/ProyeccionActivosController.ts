@@ -19,8 +19,11 @@ export default class ProyeccionPasivosController {
     const id: string = request.params().id;
     const newActivo = request.all()
 
+    const activos = await Activo.all();
+    
     if (activos.length < 0) {
-      response.status(200).json({ message: "No hay activos disponibles para actualizar" });
+      response.status(400).json({ message: "No hay activos disponibles para actualizar" });
+      return
     }
     
     const activoOld = await Activo.findByOrFail("id", id);
