@@ -1,14 +1,19 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Pasivo from "App/Models/Pasivo";
-
+import User from 'App/Models/user';
 export default class ProyeccionPasivosController {
-  public async index({response}: HttpContextContract){
-    const pasivos = await Pasivo.all();
+  public async index({response, auth}: HttpContextContract){
 
-    if(pasivos.length < 0){
+    const user = await User.find(auth.use("api")?.user?.id);
+    await user?.load('pasivos');
+    
+    const pasivos = await user?.pasivos
+ 
+
+    if(pasivos?.length < 0){
       response.status(200).json({ message : "No hay pasivos disponibles"})
     }
-    if(pasivos.length > 0){
+    if(pasivos?.length > 0){
       response.status(200).json(pasivos)
     }
   }

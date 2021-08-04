@@ -1,14 +1,16 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Activo from "App/Models/Activo";
+import User from 'App/Models/user';
 export default class ProyeccionPasivosController {
-  public async index({ response }: HttpContextContract) {
-
-    const activos = await Activo.all();
-
-    if (activos.length < 0) {
+  public async index({ response, auth }: HttpContextContract) {
+    const user = await User.find(auth.use("api")?.user?.id);
+    await user.load('activos');
+    
+    const activos = await user?.activos
+    if (activos?.length < 0) {
       response.status(200).json({ message: "No hay activos disponibles" });
     }
-    if (activos.length > 0) {
+    if (activos?.length > 0) {
       response.status(200).json(activos);
     }
   }
@@ -20,7 +22,7 @@ export default class ProyeccionPasivosController {
     const newActivo = request.all()
 
     const activos = await Activo.all();
-    
+
     if (activos.length < 0) {
       response.status(400).json({ message: "No hay activos disponibles para actualizar" });
       return
