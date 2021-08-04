@@ -13,7 +13,7 @@ export default class Salario extends BaseModel {
   public salary: number;
 
   @column()
-  public dayWorks: number;
+  public day_works: number;
 
   @column()
   public pension: number;
@@ -27,9 +27,6 @@ export default class Salario extends BaseModel {
   @column()
   public comision: number;
 
-  @column()
-  public valor: number
-  
   @column()
   public userId: number
 
