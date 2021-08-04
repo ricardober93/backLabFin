@@ -1,6 +1,5 @@
 import  User  from 'App/Models/user';
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Logger from '@ioc:Adonis/Core/Logger'
 import Activo from "App/Models/Activo";
 import Pasivo from "App/Models/Pasivo";
 import Patrimonio from "App/Models/Patrimonio";
@@ -41,9 +40,9 @@ export default class BaseInicialsController {
     );
 
     let sum = totalPatrimonio + totalPasivos;
-    console.log(sum, totalActivos);
+
     if (totalActivos !== sum) {
-      response.status(200).json({
+      response.status(400).json({
         status: "error",
         message:
           "La suma de los pasivos y patrimonio no son iguales a los activos",
