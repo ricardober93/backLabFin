@@ -5,10 +5,10 @@ import Producto from "App/Models/Producto";
 const productoModel = new Producto();
 export default class ProyeccionProductosController {
   public async index({ auth,response }: HttpContextContract) {
-    const user = await User.find(auth.use("api").user.id);
+    const user = await User.find(auth.use("api")?.user?.id);
 
 
-      await user.load('productos');
+    await user.load('productos');
     if (user.productos === null) {
       response.status(400).json({ message: "no hay productos para mostrar" });
     }
