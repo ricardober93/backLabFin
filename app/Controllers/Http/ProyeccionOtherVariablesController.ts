@@ -1,10 +1,28 @@
+import User from 'App/Models/user';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import OtherVaraible from 'App/Models/OtherVaraible';
 
 export default class ProyeccionOtherVariablesController {
   public async index ({}: HttpContextContract) {
   }
 
-  public async create ({}: HttpContextContract) {
+  public async create ({request, response, auth}: HttpContextContract) {
+    const user: User = auth?.use("api")?.user;
+
+    const variable = request.all();
+    console.log(variable)
+
+    if (variable === null ) {
+      response
+        .status(400)
+        .json({ message: "No se puede crear una varibale vacia" });
+        return
+    }
+
+    const newVariable = await OtherVaraible.create(variable)
+    await newVariable.related('user').associate(user)
+
+    response.status(201).json({ message: "Se crearon la variable" });
   }
 
   public async store ({}: HttpContextContract) {
