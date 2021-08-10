@@ -52,10 +52,14 @@ export default class ProyeccionVariablesController {
     const varaibleOld = await Variable.findByOrFail("id", id);
 
     await varaibleOld.merge(updateVariable).save();
-    
+
     response.status(200).json({ message: "Se actualizó la variable" });
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy ({request, response}: HttpContextContract) {
+    const id: string = request.params().id;
+    const varaibleOld = await Variable.findByOrFail("id", id);
+    varaibleOld.delete();
+    response.status(200).json({ message: "Variable eliminado" });
   }
 }
