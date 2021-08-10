@@ -15,10 +15,6 @@ export default class OtherVaraible extends BaseModel {
   @column()
   public value: number
 
-
-  @column()
-  public increment_salary: number
-
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 

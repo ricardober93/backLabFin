@@ -14,6 +14,7 @@ import Patrimonio from './Patrimonio';
 import Producto from './Producto';
 import Salario from './Salario';
 import Variable from './Variable';
+import OtherVaraible from './OtherVaraible';
 export default class user extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -53,6 +54,9 @@ export default class user extends BaseModel {
 
   @hasMany(() => Variable)
   public variables: HasMany<typeof Variable>
+
+  @hasMany(() => OtherVaraible)
+  public otherVariables: HasMany<typeof OtherVaraible>
 
   @beforeSave()
   public static async hashPassword (user: user) {
