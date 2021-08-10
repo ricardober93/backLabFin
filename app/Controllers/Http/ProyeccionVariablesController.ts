@@ -2,6 +2,7 @@ import User  from 'App/Models/user';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Variable from 'App/Models/Variable';
 
+const variableModel = new Variable();
 export default class ProyeccionVariablesController {
   public async index ({}: HttpContextContract) {
   }
@@ -10,6 +11,7 @@ export default class ProyeccionVariablesController {
     const user: User = auth?.use("api")?.user;
 
     const variable = request.all();
+    console.log(variable)
 
     if (variable === null ) {
       response
@@ -18,9 +20,12 @@ export default class ProyeccionVariablesController {
         return
     }
 
-    const newVariable = await Variable.create(variable);
-    await newVariable.related('user').associate(user)
+    variableModel.name = variable.name;
+    variableModel.value = variable.value;
+    await variableModel.save()
+    await variableModel.related('user').associate(user)
 
+    response.status(201).json({ message: "Se crearon la variable" });
   }
 
   public async store ({}: HttpContextContract) {
