@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class OtherVaraibles extends BaseSchema {
-  protected tableName = 'other_varaibles'
+export default class OtherVariables extends BaseSchema {
+  protected tableName = 'other_variables '
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
