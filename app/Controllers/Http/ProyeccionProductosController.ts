@@ -44,14 +44,13 @@ export default class ProyeccionProductosController {
 
     const productoOLd = await Producto.findByOrFail("id", id);
 
-    console.log(id, productAll, productAll);
     if (productoOLd === null) {
       response.status(203).json({ message: "no hay producto" });
       return;
     }
 
     await productoOLd.merge(productAll).save();
-    console.log(productoOLd.$isPersisted);
+    
     response.status(200).json({ message: "Se actualizó el producto" });
   }
 
