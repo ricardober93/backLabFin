@@ -27,7 +27,6 @@ export default class ProyeccionSalariosController {
     const transport = request?.input("transport");
     const comision = request?.input("comision");
 
-    console.log(transport, comision);
 
     if (name === null || salary === null) {
       response
