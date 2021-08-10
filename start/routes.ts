@@ -7,6 +7,7 @@ import './routes/Activo'
 import './routes/Pasivo'
 import './routes/Patrimonio'
 import './routes/Variable'
+import './routes/OtherVariable'
 
 /*
 |--------------------------------------------------------------------------
