@@ -46,7 +46,14 @@ export default class ProyeccionVariablesController {
   public async edit ({}: HttpContextContract) {
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update ({request, response}: HttpContextContract) {
+    const id: string = request.params().id;
+    const updateVariable = request.all()
+    const varaibleOld = await Variable.findByOrFail("id", id);
+
+    await varaibleOld.merge(updateVariable).save();
+    
+    response.status(200).json({ message: "Se actualizó la variable" });
   }
 
   public async destroy ({}: HttpContextContract) {
