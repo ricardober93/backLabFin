@@ -3,7 +3,16 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import OtherVariable from 'App/Models/OtherVariable';
 
 export default class ProyeccionOtherVariablesController {
-  public async index ({}: HttpContextContract) {
+  public async index({ auth, response}: HttpContextContract) {
+    const user = await User.find(auth.use("api")?.user?.id);
+
+    await user?.load("otherVariables");
+    if (user?.otherVariables === null) {
+      response.status(400).json({ message: "no hay otherVariables para mostrar" });
+    }
+    if (user?.otherVariables !== null) {
+      response.status(200).json(user?.otherVariables);
+    }
   }
 
   public async create ({request, response, auth}: HttpContextContract) {
