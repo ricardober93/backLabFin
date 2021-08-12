@@ -14,7 +14,7 @@ import Patrimonio from './Patrimonio';
 import Producto from './Producto';
 import Salario from './Salario';
 import Variable from './Variable';
-import OtherVaraible from './OtherVaraible';
+import OtherVaraible from './OtherVariable';
 export default class user extends BaseModel {
   @column({ isPrimary: true })
   public id: number

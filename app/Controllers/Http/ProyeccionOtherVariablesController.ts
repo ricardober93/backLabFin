@@ -1,6 +1,6 @@
 import User from 'App/Models/user';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import OtherVaraible from 'App/Models/OtherVaraible';
+import OtherVariable from 'App/Models/OtherVariable';
 
 export default class ProyeccionOtherVariablesController {
   public async index ({}: HttpContextContract) {
@@ -19,7 +19,7 @@ export default class ProyeccionOtherVariablesController {
         return
     }
 
-    const newVariable = await OtherVaraible.create(variable)
+    const newVariable = await OtherVariable.create(variable)
     await newVariable.related('user').associate(user)
 
     response.status(201).json({ message: "Se crearon la variable" });
