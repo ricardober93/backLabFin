@@ -43,9 +43,20 @@ export default class ProyeccionOtherVariablesController {
   public async edit ({}: HttpContextContract) {
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update({ request, response}: HttpContextContract) {
+    const id: string = request.params().id;
+    const updateOtherVariable = request.all()
+    const OtherVariableOld = await OtherVariable.findByOrFail("id", id);
+
+    await OtherVariableOld.merge(updateOtherVariable).save();
+
+    response.status(200).json({ message: "Se actualizó las otras variable" });
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy({ response, request }: HttpContextContract) {
+    const id: string = request.params().id;
+    const varaibleOld = await OtherVariable.findByOrFail("id", id);
+    varaibleOld.delete();
+    response.status(200).json({ message: "Otras Variable eliminado" });
   }
 }
