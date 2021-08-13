@@ -29,10 +29,8 @@ export default class ProyeccionVariablesController {
         return
     }
 
-    variableModel.name = variable.name;
-    variableModel.value = variable.value;
-    await variableModel.save()
-    await variableModel.related('user').associate(user)
+    const newVariable = await Variable.create(variable);
+    await newVariable.related('user').associate(user)
 
     response.status(201).json({ message: "Se crearon la variable" });
   }
