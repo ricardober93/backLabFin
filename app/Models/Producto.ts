@@ -14,12 +14,15 @@ export default class Producto extends BaseModel {
 
   @column()
   public price: number;
-
-  @column()
-  public rate_cost: number;
-
+ 
   @column()
   public rate_raise: number;
+
+  @column()
+  public price_cost: number;
+
+  @column()
+  public inventary_final: number;
 
   @column()
   public rate_of_sale: number;

@@ -6,8 +6,6 @@ export default class Salarios extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('valor', 50).notNullable()
-
       table.string('name').notNullable()
       table.integer('salary')
       table.integer('day_works')

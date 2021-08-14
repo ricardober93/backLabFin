@@ -1,4 +1,4 @@
-import { User } from 'App/Models/user';
+import User from 'App/Models/user';
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 
@@ -13,7 +13,7 @@ export default class Salario extends BaseModel {
   public salary: number;
 
   @column()
-  public dayWorks: number;
+  public day_works: number;
 
   @column()
   public pension: number;
@@ -27,9 +27,6 @@ export default class Salario extends BaseModel {
   @column()
   public comision: number;
 
-  @column()
-  public valor: number
-  
   @column()
   public userId: number
 

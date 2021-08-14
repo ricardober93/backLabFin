@@ -6,4 +6,5 @@ Route.group(() => {
 Route.get("/proyeccion/patrimonio", patrimonioController.index);
 Route.post("/proyeccion/patrimonio", patrimonioController.create);
 Route.put("/proyeccion/patrimonio/:id", patrimonioController.update);
+Route.delete("/proyeccion/patrimonio/:id", patrimonioController.delete);
 }).middleware('auth:api')

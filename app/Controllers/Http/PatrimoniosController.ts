@@ -1,14 +1,17 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Patrimonio from "App/Models/Patrimonio";
-
+import User from "App/Models/user";
 export default class PatrimoniosController {
-  public async index({ response }: HttpContextContract) {
-    const patrimonio = await Patrimonio.all();
+  public async index({ response, auth }: HttpContextContract) {
+    const user = await User.find(auth.use("api")?.user?.id);
+    await user?.load("patrimonios");
 
-    if (patrimonio.length < 0) {
+    const patrimonio = await user?.patrimonios;
+
+    if (patrimonio?.length < 0) {
       response.status(200).json({ message: "No hay patrimonio disponibles" });
     }
-    if (patrimonio.length > 0) {
+    if (patrimonio?.length > 0) {
       response.status(200).json(patrimonio);
     }
   }

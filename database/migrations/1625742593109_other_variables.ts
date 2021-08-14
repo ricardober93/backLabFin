@@ -1,11 +1,13 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class OtherVaraibles extends BaseSchema {
-  protected tableName = 'other_varaibles'
+export default class OtherVariables extends BaseSchema {
+  protected tableName = 'other_variables '
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.string("name")
+      table.integer("value")
       table
       .integer('user_id')
       .unsigned()

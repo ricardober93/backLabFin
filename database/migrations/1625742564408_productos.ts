@@ -9,8 +9,9 @@ export default class Productos extends BaseSchema {
       table.string('name', 255).notNullable()
       table.integer('quantity').notNullable()
       table.integer('price').nullable()
-      table.integer('rate_cost')
       table.integer('rate_raise')
+      table.integer('rate_cost')
+      table.integer('inventary_final')
       table.integer('rate_of_sale')
       table.integer('rate_of_purchases')
       table
