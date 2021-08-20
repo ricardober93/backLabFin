@@ -71,10 +71,10 @@ export default class ProyeccionProductosController {
 
     const proyeccion = user?.productos?.map(p => {
       const periodo_uno = p.quantity * p.price;
-      const periodo_dos = periodo_uno * (1 + p.rate_raise);
-      const periodo_tres = periodo_dos * (1 + p.rate_raise);
-      const periodo_cuatro = periodo_tres * (1 + p.rate_raise);
-      const periodo_quinto = periodo_cuatro * (1 + p.rate_raise);
+      const periodo_dos = periodo_uno * (1 + p.rate_raise/100 );
+      const periodo_tres = periodo_dos * (1 + p.rate_raise/100);
+      const periodo_cuatro = periodo_tres * (1 + p.rate_raise/100);
+      const periodo_quinto = periodo_cuatro * (1 + p.rate_raise/100);
       return {
         name: p.name,
         periodo_uno,
