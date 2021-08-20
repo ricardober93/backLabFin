@@ -3,7 +3,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Producto from "App/Models/Producto";
 
 export default class ProyeccionProductosController {
-  public async index({ auth,response }: HttpContextContract) {
+  public async index({ auth, response }: HttpContextContract) {
     const user = await User.find(auth.use("api")?.user?.id);
 
 
@@ -18,6 +18,7 @@ export default class ProyeccionProductosController {
 
   public async create({ auth, request, response }: HttpContextContract) {
     const product = request.all();
+    console.log(product)
     const user: User = auth?.use("api")?.user;
 
     if (product.name === null || product.quantity === null) {
@@ -32,11 +33,11 @@ export default class ProyeccionProductosController {
     response.status(201).json({ message: "Se crearon el producto" });
   }
 
-  public async store({}: HttpContextContract) {}
+  public async store({ }: HttpContextContract) { }
 
-  public async show({}: HttpContextContract) {}
+  public async show({ }: HttpContextContract) { }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ }: HttpContextContract) { }
 
   public async update({ request, response }: HttpContextContract) {
     const id: string = request.params().id;
@@ -50,7 +51,7 @@ export default class ProyeccionProductosController {
     }
 
     await productoOLd.merge(productAll).save();
-    
+
     response.status(200).json({ message: "Se actualizó el producto" });
   }
 
@@ -60,5 +61,32 @@ export default class ProyeccionProductosController {
     productoDel.delete();
     response.status(200).json({ message: "Producto eliminado" });
     console.log(productoDel);
+  }
+
+
+  public async proyeccionProductos({ auth, response }: HttpContextContract) {
+    const user = await User.find(auth.use("api")?.user?.id);
+
+    await user?.load('productos');
+
+    const proyeccion = user?.productos?.map(p => {
+      const periodo_uno = p.quantity * p.price;
+      const periodo_dos = periodo_uno * (1 + p.rate_raise);
+      const periodo_tres = periodo_dos * (1 + p.rate_raise);
+      const periodo_cuatro = periodo_tres * (1 + p.rate_raise);
+      const periodo_quinto = periodo_cuatro * (1 + p.rate_raise);
+      return {
+        name: p.name,
+        periodo_uno,
+        periodo_dos,
+        periodo_tres,
+        periodo_cuatro,
+        periodo_quinto
+      }
+    }
+
+    )
+
+    response.status(200).json(proyeccion);
   }
 }
