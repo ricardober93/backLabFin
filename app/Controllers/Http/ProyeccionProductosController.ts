@@ -18,7 +18,7 @@ export default class ProyeccionProductosController {
 
   public async create({ auth, request, response }: HttpContextContract) {
     const product = request.all();
-    console.log(product)
+
     const user: User = auth?.use("api")?.user;
 
     if (product.name === null || product.quantity === null) {
